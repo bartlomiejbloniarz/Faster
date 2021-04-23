@@ -1,4 +1,4 @@
-package com.bloniarz.faster;
+package com.bloniarz.faster.game.objects;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,5 +13,9 @@ public class Point extends RectF {
         super(left, top, right, bottom);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(color);
+    }
+
+    public Paint getPaint() {
+        return paint;
     }
 }

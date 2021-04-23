@@ -3,11 +3,12 @@ package com.bloniarz.faster;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
+
 import androidx.fragment.app.FragmentActivity;
 
-import com.bloniarz.faster.R;
+import com.bloniarz.faster.fragments.PauseDialogFragment;
+import com.bloniarz.faster.game.GameView;
 
 public class GameActivity extends FragmentActivity {
 
@@ -17,7 +18,6 @@ public class GameActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.gameView);
     }
@@ -26,7 +26,7 @@ public class GameActivity extends FragmentActivity {
         onBackPressed();
     }
 
-    public void goBackToMenu(){
+    public void gameOver(){
         startActivity(new Intent(this, GameOverActivity.class));
     }
 

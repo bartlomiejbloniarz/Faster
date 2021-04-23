@@ -1,4 +1,4 @@
-package com.bloniarz.faster;
+package com.bloniarz.faster.game.levels;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;

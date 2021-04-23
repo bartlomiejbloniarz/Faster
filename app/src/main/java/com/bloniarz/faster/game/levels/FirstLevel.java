@@ -1,4 +1,4 @@
-package com.bloniarz.faster;
+package com.bloniarz.faster.game.levels;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import com.bloniarz.faster.game.objects.Point;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,7 +45,7 @@ public class FirstLevel implements Level {
             canvas.drawColor(Color.BLUE);
             canvas.drawRect(mainRect, squareColor);
             for (Point point: points)
-                canvas.drawRect(point, point.paint);
+                canvas.drawRect(point, point.getPaint());
         }
     }
 

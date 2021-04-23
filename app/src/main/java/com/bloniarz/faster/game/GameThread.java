@@ -1,7 +1,9 @@
-package com.bloniarz.faster;
+package com.bloniarz.faster.game;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+
+import com.bloniarz.faster.game.GameView;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
