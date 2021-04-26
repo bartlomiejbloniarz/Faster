@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bloniarz.faster.fragments.PauseDialogFragment;
 import com.bloniarz.faster.game.GameView;
 
-public class GameActivity extends FragmentActivity {
+public class GameActivity extends AppCompatActivity {
 
     GameView gameView;
 
@@ -33,7 +34,7 @@ public class GameActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         gameView.pause();
-        PauseDialogFragment dialogFragment = new PauseDialogFragment(gameView);
+        PauseDialogFragment dialogFragment = new PauseDialogFragment(gameView, this);
         dialogFragment.show(getSupportFragmentManager(), dialogFragment.getTag());
     }
 }

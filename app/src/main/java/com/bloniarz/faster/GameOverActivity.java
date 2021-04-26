@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bloniarz.faster.R;
 
-public class GameOverActivity extends Activity {
+public class GameOverActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,6 @@ public class GameOverActivity extends Activity {
     }
 
     public void backClick(View view) {
-        startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        onBackPressed();
     }
 }

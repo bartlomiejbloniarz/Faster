@@ -20,20 +20,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Level currentLevel;
     private GameActivity gameActivity;
     private boolean paused = false;
+    private float currentSpeed;
 
     public GameView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
         if (!this.isInEditMode())
             this.gameActivity = (GameActivity) context;
         getHolder().addCallback(this);
-        currentLevel = new FirstLevel(3f);
-        setFocusable(true);
-        setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                |SYSTEM_UI_FLAG_FULLSCREEN
-                |SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                |SYSTEM_UI_FLAG_LAYOUT_STABLE
-                |SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                |SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        reset();
     }
 
     public void pause(){
@@ -43,15 +37,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void resume(){
         paused = false;
-        setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                |SYSTEM_UI_FLAG_FULLSCREEN
-                |SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                |SYSTEM_UI_FLAG_LAYOUT_STABLE
-                |SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                |SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        fixSystemUiVisibility();
         thread = new GameThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
+    }
+
+    public void reset(){
+        currentSpeed = 2f;
+        currentLevel = new FirstLevel(currentSpeed);
+        setFocusable(true);
+        fixSystemUiVisibility();
     }
 
     @Override
@@ -90,7 +86,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void changeLevel(){
-        currentLevel = new FirstLevel(3f);
+        currentSpeed += 0.5f;
+        currentLevel = new FirstLevel(currentSpeed);
     }
 
     @Override
@@ -128,6 +125,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (visibility == GONE)
             endThread();
         super.onVisibilityChanged(changedView, visibility);
+    }
+
+    public void fixSystemUiVisibility(){
+        setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                |SYSTEM_UI_FLAG_FULLSCREEN
+                |SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                |SYSTEM_UI_FLAG_LAYOUT_STABLE
+                |SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                |SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     public boolean isPaused() {

@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Faster</string>
-    <string name="button">Play</string>
+    <string name="play">Play</string>
     <string name="back">Back</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pause">Pause</string>
+    <string name="scoreboard">Scoreboard</string>
+    <string name="settings">Settings</string>
+    <string name="set_theme">Set theme:</string>
+    <string name="top_10">Top 10</string>
+    <string-array name="themes_array">
+        <item>Default</item>
+        <item>Dark mode</item>
+        <item>Light mode</item>
+    </string-array>
 </resources>

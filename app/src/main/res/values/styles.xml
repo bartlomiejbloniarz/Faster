@@ -9,4 +9,19 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <!-- The default font for RecyclerView items is too small.
+    The margin is a simple delimiter between the words. -->
+    <style name="score_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+    </style>
+
+    <style name="pause_alert_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

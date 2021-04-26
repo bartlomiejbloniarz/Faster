@@ -7,13 +7,34 @@
     tools:context="com.bloniarz.faster.MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="playGame"
-        android:text="@string/button"
+        android:text="@string/play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/scoreboard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showScoreboard"
+        android:text="@string/scoreboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showSettings"
+        android:text="@string/settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreboard_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
