@@ -33,13 +33,4 @@ public class ScoreboardActivity extends AppCompatActivity {
         scoreboardViewModel = new ViewModelProvider(this).get(ScoreboardViewModel.class);
         scoreboardViewModel.getTopScores().observe(this, adapter::submitList);
     }
-
-    public void addItem(View view){
-        scoreboardViewModel.insert(new Score(new Date(), new Random().nextInt(1000)));
-        scoreboardViewModel.deleteBottom();
-    }
-
-    public void clear(View view){
-        scoreboardViewModel.clear();
-    }
 }

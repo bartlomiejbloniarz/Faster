@@ -32,7 +32,7 @@ public class PauseDialogFragment extends DialogFragment {
                     gameView.reset();
                     gameView.resume();
                 })
-                .setPositiveButton("Exit", (dialog, which) -> {gameActivity.gameOver();} )
+                .setPositiveButton("Exit", (dialog, which) -> {gameActivity.gameOver(gameView.getScore());} )
                 .create();
     }
 

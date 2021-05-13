@@ -38,8 +38,8 @@ public class GameThread extends Thread {
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
-                    this.gameView.update((float)(System.nanoTime() - endTime)/1000000);
-                    this.gameView.draw(canvas);
+                    if (this.gameView.update((float)(System.nanoTime() - endTime)/1000000))
+                        this.gameView.draw(canvas);
                 }
             } catch (Exception ignored) {}
             finally{

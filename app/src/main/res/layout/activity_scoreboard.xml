@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ScoreboardActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="clear"
-        android:text="Clear"
-        app:layout_constraintBottom_toBottomOf="@+id/scoreboard_view"
-        app:layout_constraintEnd_toEndOf="@+id/scoreboard_view"
-        app:layout_constraintStart_toStartOf="@+id/scoreboard_view" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scoreboard_view"
         android:layout_width="0dp"
@@ -28,16 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scoreboard_activity_text_view"
         tools:listitem="@layout/scoreboard_view_item" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="addItem"
-        android:text="Add random"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/scoreboard_view"
-        app:layout_constraintStart_toStartOf="@+id/scoreboard_view" />
 
     <TextView
         android:id="@+id/scoreboard_activity_text_view"

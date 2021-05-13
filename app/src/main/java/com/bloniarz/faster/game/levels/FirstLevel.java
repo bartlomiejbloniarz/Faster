@@ -15,13 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FirstLevel implements Level {
-    private float x, y, xVelocity = 0, yVelocity = 350, dXVelocity = 100;
+    private float x, y, xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
     private final float width = 100, height = 100;
     private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private final Paint squareColor = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final HashSet<Integer> leftSet = new HashSet<>(), rightSet = new HashSet<>();
-    private final List<Point> points = new LinkedList<>();
+    private final List<Point> stillPoints = new LinkedList<>(), movingPoints = new LinkedList<>();
     private final RectF mainRect;
 
     public FirstLevel(float speed){
@@ -30,21 +30,23 @@ public class FirstLevel implements Level {
         xVelocity *= speed;
         yVelocity *= speed;
         dXVelocity *= speed;
+        movingPointXVelocity *= speed;
         mainRect = new RectF(x, y, x+width, y+height);
         squareColor.setColor(Color.BLACK);
-        float part = 0.25f;
-        points.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.GREEN));
-        part = 0.5f;
-        points.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.GREEN));
-        part = 0.75f;
-        points.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.GREEN));
+        for (float part = 0.25f; part<= 0.75f; part+=0.25f)
+            stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.GREEN, 0, 0));
+        for (float part = 0.375f; part<= 0.625f; part+=0.25f)
+            movingPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.RED, part<0.5f ? movingPointXVelocity : -movingPointXVelocity, 0));
+
     }
     @Override
     public synchronized void draw(Canvas canvas) {
         if (canvas != null){
             canvas.drawColor(Color.BLUE);
             canvas.drawRect(mainRect, squareColor);
-            for (Point point: points)
+            for (Point point: stillPoints)
+                canvas.drawRect(point, point.getPaint());
+            for (Point point: movingPoints)
                 canvas.drawRect(point, point.getPaint());
         }
     }
@@ -110,13 +112,19 @@ public class FirstLevel implements Level {
         x = Math.max(x, 0);
         mainRect.offsetTo(x, y);
         if (y > screenHeight - height) {
-            if (points.size() == 0)
+            if (stillPoints.size() == 0)
                 return State.PASSED;
             else
                 return State.LOST;
         }
-        for (Iterator<Point> i = points.iterator(); i.hasNext();){
+        for (Point point: movingPoints) {
+            point.update(time);
+            if (RectF.intersects(mainRect, point))
+                return State.LOST;
+        }
+        for (Iterator<Point> i = stillPoints.iterator(); i.hasNext();){
             Point element = i.next();
+            element.update(time);
             if (RectF.intersects(mainRect, element)) {
                 i.remove();
             }
