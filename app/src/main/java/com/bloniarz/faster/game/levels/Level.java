@@ -10,4 +10,6 @@ public interface Level {
     void draw(Canvas canvas);
     State update(float time);
     boolean touch(MotionEvent event);
+    String getLevelName();
+    String getLevelDescription();
 }

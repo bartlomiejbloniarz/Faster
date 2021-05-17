@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FirstLevel implements Level {
+public class Level1 implements Level {
     private float x, y, xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
     private final float width = 100, height = 100;
     private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -24,7 +24,7 @@ public class FirstLevel implements Level {
     private final List<Point> stillPoints = new LinkedList<>(), movingPoints = new LinkedList<>();
     private final RectF mainRect;
 
-    public FirstLevel(float speed){
+    public Level1(float speed, int goodColor, int badColor){
         x = (screenWidth - width)/2;
         y = 10;
         xVelocity *= speed;
@@ -34,15 +34,14 @@ public class FirstLevel implements Level {
         mainRect = new RectF(x, y, x+width, y+height);
         squareColor.setColor(Color.BLACK);
         for (float part = 0.25f; part<= 0.75f; part+=0.25f)
-            stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.GREEN, 0, 0));
+            stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, goodColor, 0, 0));
         for (float part = 0.375f; part<= 0.625f; part+=0.25f)
-            movingPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, Color.RED, part<0.5f ? movingPointXVelocity : -movingPointXVelocity, 0));
+            movingPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, badColor, part<0.5f ? movingPointXVelocity : -movingPointXVelocity, 0));
 
     }
     @Override
     public synchronized void draw(Canvas canvas) {
         if (canvas != null){
-            canvas.drawColor(Color.BLUE);
             canvas.drawRect(mainRect, squareColor);
             for (Point point: stillPoints)
                 canvas.drawRect(point, point.getPaint());
@@ -130,5 +129,15 @@ public class FirstLevel implements Level {
             }
         }
         return State.RUNNING;
+    }
+
+    @Override
+    public String getLevelName() {
+        return "Falling square";
+    }
+
+    @Override
+    public String getLevelDescription() {
+        return "Put your fingers\non the sides\nto avoid red squares\nand\ncollect the green ones!";
     }
 }

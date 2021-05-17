@@ -18,9 +18,8 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.NonNull;
 
 import com.bloniarz.faster.GameActivity;
-import com.bloniarz.faster.game.levels.FirstLevel;
+import com.bloniarz.faster.R;
 import com.bloniarz.faster.game.levels.Level;
-import com.bloniarz.faster.game.levels.SecondLevel;
 
 import java.util.Locale;
 import java.util.Random;
@@ -31,14 +30,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Level currentLevel;
     private GameActivity gameActivity;
     private boolean paused = false, animating = false;
-    private float currentSpeed;
     private final Random random;
     private int result = 0;
     private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private ValueAnimator valueAnimator;
     private int countdown;
-    private String currentLevelName="", currentLevelDescription="";
+    private LevelFactory levelFactory;
 
 
     public GameView(Context context, AttributeSet attributeSet){
@@ -48,20 +46,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             this.gameActivity = (GameActivity) context;
         getHolder().addCallback(this);
         reset();
-    }
-
-    Level newRandomLevel(){
-        float prob = random.nextFloat();
-        if (prob<0.5) {
-            currentLevelName = "Falling square";
-            currentLevelDescription = "Put your fingers\non the sides\nto avoid red squares\nand\ncollect the green ones!";
-            return new FirstLevel(currentSpeed);
-        }
-        else {
-            currentLevelName = "Tap tap tap!";
-            currentLevelDescription = "Tap all the squares";
-            return new SecondLevel(currentSpeed);
-        }
     }
 
     public void pause(){
@@ -93,8 +77,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         animating = true;
         createCountdownAnimator();
         gameActivity.runOnUiThread(valueAnimator::start);
-        currentSpeed = 2f;
-        currentLevel = newRandomLevel();
+        levelFactory = new LevelFactory(gameActivity, new SpeedFactory(1.5f, 0.60f));
+        currentLevel = levelFactory.getNextLevel();
         setFocusable(true);
         fixSystemUiVisibility();
     }
@@ -138,23 +122,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void drawCountDown(Canvas canvas){
-        canvas.drawColor(Color.BLUE);
+        canvas.drawColor(gameActivity.getColor(R.color.game_background));
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(300);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(String.format(Locale.US, "%d", countdown), screenWidth/2, screenHeight/2, paint);
         paint.setTextSize(100);
-        canvas.drawText(currentLevelName, screenWidth/2, screenHeight/2-500, paint);
-        float x = screenWidth/2, y = screenHeight/2+500;
-        for (String line: currentLevelDescription.split("\n")) {
+        canvas.drawText(currentLevel.getLevelName(), screenWidth/2, screenHeight/5, paint);
+        float x = screenWidth/2, y = 2*screenHeight/3;
+        for (String line: currentLevel.getLevelDescription().split("\n")) {
             canvas.drawText(line, x, y, paint);
             y += paint.descent() - paint.ascent();
         }
     }
 
     private void onAnimationUpdate(ValueAnimator valueAnimator) {
-        System.out.println("animating");
         Canvas canvas = getHolder().lockCanvas();
         synchronized (getHolder()){
             if (canvas!= null){
@@ -184,18 +167,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(false);
         animating = true;
         System.out.println("change");
-        currentLevel = newRandomLevel();
+        currentLevel = levelFactory.getNextLevel();
         createCountdownAnimator();
         gameActivity.runOnUiThread(valueAnimator::start);
         result += 100;
         gameActivity.setScore(result);
-        currentSpeed += 0.5f;
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (canvas != null){
+            canvas.drawColor(gameActivity.getColor(R.color.game_background));
             currentLevel.draw(canvas);
         }
     }

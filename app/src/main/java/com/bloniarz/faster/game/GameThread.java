@@ -24,21 +24,21 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        long startTime;
-        long totalTime = 0;
-        long timeMillis;
-        int frameCount = 0;
-        long waitTime;
-        long endTime = System.nanoTime();
-        long targetTime = 1000 / targetFPS;
+//        long startTime;
+//        long totalTime = 0;
+//        long timeMillis;
+//        int frameCount = 0;
+//        long waitTime;
+//        long targetTime = 1000 / targetFPS;
+        long endTime = System.currentTimeMillis();
 
         while (running.get()){
-            startTime = System.nanoTime();
+            //startTime = System.nanoTime();
             canvas = null;
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
-                    if (this.gameView.update((float)(System.nanoTime() - endTime)/1000000))
+                    if (this.gameView.update((float)(System.currentTimeMillis() - endTime)))
                         this.gameView.draw(canvas);
                 }
             } catch (Exception ignored) {}
@@ -50,23 +50,23 @@ public class GameThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                endTime = System.nanoTime();
+                endTime = System.currentTimeMillis();
             }
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime - timeMillis;
+//            timeMillis = (System.nanoTime() - startTime) / 1000000;
+//            waitTime = targetTime - timeMillis;
 
-            //try {
-            //    sleep(waitTime);
-            //} catch (Exception ignored) {}
+//            try {
+//                sleep(waitTime);
+//            } catch (Exception ignored) {}
 
-            totalTime += System.nanoTime() - startTime;
-            frameCount++;
-            if (frameCount == targetFPS){
-                //System.out.println(1000 / ((totalTime / frameCount) / 1000000));
-                frameCount = 0;
-                totalTime = 0;
-            }
+//            totalTime += System.nanoTime() - startTime;
+//            frameCount++;
+//            if (frameCount == targetFPS){
+//                //System.out.println(1000 / ((totalTime / frameCount) / 1000000));
+//                frameCount = 0;
+//                totalTime = 0;
+//            }
         }
     }
 

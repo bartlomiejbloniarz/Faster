@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="game_background">#0853a8</color>
+    <color name="game_bad_color">#d40d0d</color>
+    <color name="game_good_color">#0bdb35</color>
+    <color name="game_neutral_color">#0dd4b3</color>
 </resources>

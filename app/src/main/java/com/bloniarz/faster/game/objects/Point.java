@@ -42,4 +42,28 @@ public class Point extends RectF {
     public Paint getPaint() {
         return paint;
     }
+
+    public float getXVelocity() {
+        return xVelocity;
+    }
+
+    public float getYVelocity() {
+        return yVelocity;
+    }
+
+    public float getScreenHeight() {
+        return screenHeight;
+    }
+
+    public float getScreenWidth() {
+        return screenWidth;
+    }
+
+    public void setXVelocity(float xVelocity) {
+        this.xVelocity = xVelocity;
+    }
+
+    public void setYVelocity(float yVelocity) {
+        this.yVelocity = yVelocity;
+    }
 }
