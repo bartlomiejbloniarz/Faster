@@ -5,17 +5,29 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlendMode;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.bloniarz.faster.GameActivity;
 import com.bloniarz.faster.R;
@@ -37,10 +49,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private ValueAnimator valueAnimator;
     private int countdown;
     private LevelFactory levelFactory;
+    @ColorInt private int backgroundColor;
+    private Paint textPaint;
 
 
     public GameView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
+        getColors(context);
         random = new Random();
         if (!this.isInEditMode())
             this.gameActivity = (GameActivity) context;
@@ -91,7 +106,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
-        return currentLevel.touch(event);
+        if (!animating)
+            return currentLevel.touch(event);
+        else return false;
     }
 
     public boolean update(float time) {
@@ -122,18 +139,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void drawCountDown(Canvas canvas){
-        canvas.drawColor(gameActivity.getColor(R.color.game_background));
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(300);
-        paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(String.format(Locale.US, "%d", countdown), screenWidth/2, screenHeight/2, paint);
-        paint.setTextSize(100);
-        canvas.drawText(currentLevel.getLevelName(), screenWidth/2, screenHeight/5, paint);
+        canvas.drawColor(backgroundColor);
+        textPaint.setTextSize(300);
+        canvas.drawText(String.format(Locale.US, "%d", countdown), screenWidth/2, screenHeight/2, textPaint);
+        textPaint.setTextSize(100);
+        canvas.drawText(currentLevel.getLevelName(), screenWidth/2, screenHeight/5, textPaint);
         float x = screenWidth/2, y = 2*screenHeight/3;
         for (String line: currentLevel.getLevelDescription().split("\n")) {
-            canvas.drawText(line, x, y, paint);
-            y += paint.descent() - paint.ascent();
+            canvas.drawText(line, x, y, textPaint);
+            y += textPaint.descent() - textPaint.ascent();
         }
     }
 
@@ -178,7 +192,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (canvas != null){
-            canvas.drawColor(gameActivity.getColor(R.color.game_background));
+            canvas.drawColor(backgroundColor);
             currentLevel.draw(canvas);
         }
     }
@@ -232,5 +246,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean isPaused() {
         return paused;
+    }
+
+    private void getColors(Context context){
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.windowBackground, typedValue, true);
+        backgroundColor = typedValue.data;
+
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        theme.resolveAttribute(R.attr.colorOnBackground, typedValue, true);
+        textPaint.setColor(typedValue.data);
+        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 }

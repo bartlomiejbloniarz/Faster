@@ -15,23 +15,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Level1 implements Level {
-    private float x, y, xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
+    private float xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
     private final float width = 100, height = 100;
     private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private final Paint squareColor = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final HashSet<Integer> leftSet = new HashSet<>(), rightSet = new HashSet<>();
     private final List<Point> stillPoints = new LinkedList<>(), movingPoints = new LinkedList<>();
-    private final RectF mainRect;
+    private final Point mainRect;
 
-    public Level1(float speed, int goodColor, int badColor){
-        x = (screenWidth - width)/2;
-        y = 10;
+    public Level1(float speed, int goodColor, int badColor, int playerColor){
+        float x = (screenWidth - width)/2;
+        float y = 10;
         xVelocity *= speed;
         yVelocity *= speed;
         dXVelocity *= speed;
         movingPointXVelocity *= speed;
-        mainRect = new RectF(x, y, x+width, y+height);
+        mainRect = new Point(x, y, x+width, y+height, playerColor, xVelocity, yVelocity); //new RectF(x, y, x+width, y+height);
         squareColor.setColor(Color.BLACK);
         for (float part = 0.25f; part<= 0.75f; part+=0.25f)
             stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, goodColor, 0, 0));
@@ -42,11 +42,11 @@ public class Level1 implements Level {
     @Override
     public synchronized void draw(Canvas canvas) {
         if (canvas != null){
-            canvas.drawRect(mainRect, squareColor);
+            mainRect.draw(canvas);
             for (Point point: stillPoints)
-                canvas.drawRect(point, point.getPaint());
+                point.draw(canvas);
             for (Point point: movingPoints)
-                canvas.drawRect(point, point.getPaint());
+                point.draw(canvas);
         }
     }
 
@@ -57,11 +57,11 @@ public class Level1 implements Level {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN: {
                 if (event.getX(actionIndex) > screenWidth / 2) {
-                    xVelocity += dXVelocity;
+                    mainRect.setXVelocity(mainRect.getXVelocity() + dXVelocity);
                     rightSet.add(pointerId);
                 }
                 else {
-                    xVelocity -= dXVelocity;
+                    mainRect.setXVelocity(mainRect.getXVelocity() - dXVelocity);
                     leftSet.add(pointerId);
                 }
                 return true;
@@ -70,11 +70,11 @@ public class Level1 implements Level {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP: {
                 if (event.getX(actionIndex) > screenWidth / 2 && rightSet.contains(pointerId)) {
-                    xVelocity -= dXVelocity;
+                    mainRect.setXVelocity(mainRect.getXVelocity() - dXVelocity);
                     rightSet.remove(pointerId);
                 }
                 else if (event.getX(actionIndex) <= screenWidth / 2 && leftSet.contains(pointerId)){
-                    xVelocity += dXVelocity;
+                    mainRect.setXVelocity(mainRect.getXVelocity() + dXVelocity);
                     leftSet.remove(pointerId);
                 }
                 return true;
@@ -84,7 +84,7 @@ public class Level1 implements Level {
                     Integer element = i.next();
                     int pointerIndex = event.findPointerIndex(element);
                     if (event.getX(pointerIndex) > screenWidth / 2) {
-                        xVelocity += 2*dXVelocity;
+                        mainRect.setXVelocity(mainRect.getXVelocity() + 2*dXVelocity);
                         i.remove();
                         rightSet.add(element);
                     }
@@ -93,7 +93,7 @@ public class Level1 implements Level {
                     Integer element = i.next();
                     int pointerIndex = event.findPointerIndex(element);
                     if (event.getX(pointerIndex) <= screenWidth / 2) {
-                        xVelocity -= 2*dXVelocity;
+                        mainRect.setXVelocity(mainRect.getXVelocity() - 2*dXVelocity);
                         i.remove();
                         leftSet.add(element);
                     }
@@ -105,12 +105,8 @@ public class Level1 implements Level {
 
     @Override
     public synchronized State update(float time) {
-        x += xVelocity*time/1000;
-        y += yVelocity*time/1000;
-        x = Math.min(x, screenWidth - width);
-        x = Math.max(x, 0);
-        mainRect.offsetTo(x, y);
-        if (y > screenHeight - height) {
+        mainRect.update(time);
+        if (mainRect.bottom >= screenHeight) {
             if (stillPoints.size() == 0)
                 return State.PASSED;
             else

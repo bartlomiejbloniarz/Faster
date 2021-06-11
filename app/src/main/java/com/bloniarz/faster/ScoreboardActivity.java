@@ -25,6 +25,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
+
         RecyclerView recyclerView = findViewById(R.id.scoreboard_view);
         final ScoreListAdapter adapter = new ScoreListAdapter(new ScoreListAdapter.ScoreDiff());
         recyclerView.setAdapter(adapter);

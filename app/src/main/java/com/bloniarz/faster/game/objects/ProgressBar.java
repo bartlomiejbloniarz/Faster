@@ -1,6 +1,7 @@
 package com.bloniarz.faster.game.objects;
 
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -24,6 +25,10 @@ public class ProgressBar extends RectF {
 
     public Paint getPaint() {
         return paint;
+    }
+
+    public void draw(Canvas canvas){
+        canvas.drawRect(this, paint);
     }
 
 }

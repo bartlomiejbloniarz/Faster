@@ -9,6 +9,7 @@
     <string name="settings">Settings</string>
     <string name="set_theme">Set theme:</string>
     <string name="top_10">Top 10</string>
+    <string name="gifts">Gifts</string>
     <string-array name="themes_array">
         <item>Default</item>
         <item>Dark mode</item>

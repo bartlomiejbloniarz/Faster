@@ -1,6 +1,5 @@
 package com.bloniarz.faster;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +8,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import com.bloniarz.faster.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void showScoreboard(View view){
         Intent intent = new Intent(this, ScoreboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void showGifts(View view){
+        Intent intent = new Intent(this, GiftsActivity.class);
         startActivity(intent);
     }
 

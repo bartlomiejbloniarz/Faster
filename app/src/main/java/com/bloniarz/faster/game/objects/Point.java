@@ -1,6 +1,7 @@
 package com.bloniarz.faster.game.objects;
 
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -65,5 +66,17 @@ public class Point extends RectF {
 
     public void setYVelocity(float yVelocity) {
         this.yVelocity = yVelocity;
+    }
+
+    public void setCenter(float x, float y){
+        offsetTo(x - (right-left)/2, y - (bottom-top)/2);
+    }
+
+    private float getRoundRadius(){
+        return Float.min((bottom - top)/5, (right - left)/5);
+    }
+
+    public void draw(Canvas canvas){
+        canvas.drawRoundRect(this, getRoundRadius(), getRoundRadius(), paint);
     }
 }

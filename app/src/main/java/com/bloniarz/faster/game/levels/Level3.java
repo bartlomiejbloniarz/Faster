@@ -30,14 +30,14 @@ public class Level3 implements SensorEventListener, Level {
     private final Paint textPaint;
     private final ProgressBar progressBar;
 
-    public Level3(Context context, float speed, int badColor){
+    public Level3(Context context, float speed, int badColor, int playerColor){
         this.speed = speed;
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(200);
         textPaint.setTextAlign(Paint.Align.CENTER);
         progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
-        point = new SensorPoint(screenWidth/2-width/2, screenHeight/2-height/2, screenWidth/2+width/2, screenHeight/2+height/2,  Color.BLACK, 0, 0);
+        point = new SensorPoint(screenWidth/2-width/2, screenHeight/2-height/2, screenWidth/2+width/2, screenHeight/2+height/2,  playerColor, 0, 0);
         rightBorder = new Point(screenWidth/2+width, screenHeight/2-height, screenWidth/2+2*width, screenHeight/2+height,  badColor, 0, 0);
         leftBorder = new Point(screenWidth/2-2*width, screenHeight/2-height, screenWidth/2-width, screenHeight/2+height,  badColor, 0, 0);
 
@@ -48,10 +48,10 @@ public class Level3 implements SensorEventListener, Level {
     @Override
     public void draw(Canvas canvas) {
         if (canvas != null){
-            canvas.drawRect(progressBar, progressBar.getPaint());
-            canvas.drawRect(point, point.getPaint());
-            canvas.drawRect(leftBorder, leftBorder.getPaint());
-            canvas.drawRect(rightBorder, rightBorder.getPaint());
+            progressBar.draw(canvas);
+            point.draw(canvas);
+            leftBorder.draw(canvas);
+            rightBorder.draw(canvas);
         }
     }
 

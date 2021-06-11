@@ -18,7 +18,6 @@ import java.util.Random;
 
 public class Level2 implements Level {
 
-    private float x, y, xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
     private final float width = 200, height = 200, speed;
     private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -30,13 +29,13 @@ public class Level2 implements Level {
     private final Paint textPaint;
 
 
-    public Level2(float speed, int tileColor){
+    public Level2(float speed, int neutralColor, int textColor){
         maxCount = 10;
         random = new Random();
         this.speed = speed;
-        this.tileColor = tileColor;
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
+        this.tileColor = neutralColor;
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(textColor);
         textPaint.setTextSize(200);
         textPaint.setTextAlign(Paint.Align.CENTER);
         for(int i=0; i<8; i++)
@@ -44,7 +43,7 @@ public class Level2 implements Level {
     }
 
     void addRandomPoint(){
-        float x1 = random.nextFloat()*screenWidth, y1 = random.nextFloat()*screenHeight+100;
+        float x1 = random.nextFloat()*screenWidth, y1 = (random.nextFloat()*0.9f+0.1f)*screenHeight;
         if (x1+width>=screenWidth)
             x1-=width;
         if (y1+height>=screenHeight)
@@ -62,9 +61,9 @@ public class Level2 implements Level {
     public synchronized void draw(Canvas canvas) {
         if (canvas != null){
             for (Point point: stillPoints)
-                canvas.drawRect(point, point.getPaint());
+                point.draw(canvas);
             for (Point point: movingPoints)
-                canvas.drawRect(point, point.getPaint());
+                point.draw(canvas);
             canvas.drawText(String.format(Locale.US, "%d", stillPoints.size()+movingPoints.size()), screenWidth/2, screenHeight/5, textPaint);
         }
     }
@@ -109,11 +108,6 @@ public class Level2 implements Level {
                 }
                 return true;
             }
-//            case MotionEvent.ACTION_CANCEL:
-//            case MotionEvent.ACTION_UP:
-//            case MotionEvent.ACTION_POINTER_UP:
-//            case MotionEvent.ACTION_MOVE:
-//                return true;
         }
         return false;
     }

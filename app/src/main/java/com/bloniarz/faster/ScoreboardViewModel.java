@@ -7,19 +7,18 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.bloniarz.faster.database.Score;
-import com.bloniarz.faster.database.ScoreDatabase;
-import com.bloniarz.faster.database.ScoreRepository;
+import com.bloniarz.faster.database.FasterRepository;
 
 import java.util.List;
 
 public class ScoreboardViewModel extends AndroidViewModel {
 
-    private final ScoreRepository repository;
+    private final FasterRepository repository;
     private final LiveData<List<Score>> topScores;
 
     public ScoreboardViewModel(@NonNull Application application) {
         super(application);
-        repository = new ScoreRepository(application);
+        repository = new FasterRepository(application);
         topScores = repository.getTopScores();
     }
 
@@ -28,14 +27,14 @@ public class ScoreboardViewModel extends AndroidViewModel {
     }
 
     public void insert(Score score){
-        repository.insert(score);
+        repository.insertScore(score);
     }
 
     public void clear(){
-        repository.clear();
+        repository.clearScore();
     }
 
     public void deleteBottom(){
-        repository.deleteBottom();
+        repository.deleteBottomScores();
     }
 }

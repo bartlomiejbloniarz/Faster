@@ -34,11 +34,11 @@ public class Level4 implements SensorEventListener, Level{
     private final int badColor;
     private final ProgressBar progressBar;
 
-    public Level4(Context context, float speed, int badColor){
+    public Level4(Context context, float speed, int badColor, int playerColor){
         this.speed = speed;
         this.badColor = badColor;
         progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
-        point = new SensorPoint(screenWidth/2-width/2, screenHeight-height, screenWidth/2+width/2, screenHeight,  Color.BLACK, 0, 0);
+        point = new SensorPoint(screenWidth/2-width/2, screenHeight-height, screenWidth/2+width/2, screenHeight,  playerColor, 0, 0);
         addPoints();
         sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
@@ -47,11 +47,11 @@ public class Level4 implements SensorEventListener, Level{
     @Override
     public void draw(Canvas canvas) {
         if (canvas != null){
-            canvas.drawRect(point, point.getPaint());
+            point.draw(canvas);
             for(Point p: points){
-                canvas.drawRect(p, p.getPaint());
+                p.draw(canvas);
             }
-            canvas.drawRect(progressBar, progressBar.getPaint());
+            progressBar.draw(canvas);
         }
     }
 

@@ -24,22 +24,17 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-//        long startTime;
-//        long totalTime = 0;
-//        long timeMillis;
-//        int frameCount = 0;
-//        long waitTime;
-//        long targetTime = 1000 / targetFPS;
         long endTime = System.currentTimeMillis();
-
+        long nextTime = endTime;
         while (running.get()){
-            //startTime = System.nanoTime();
             canvas = null;
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
-                    if (this.gameView.update((float)(System.currentTimeMillis() - endTime)))
+                    nextTime = System.currentTimeMillis();
+                    if (this.gameView.update((float)(nextTime - endTime))) {
                         this.gameView.draw(canvas);
+                    }
                 }
             } catch (Exception ignored) {}
             finally{
@@ -50,23 +45,8 @@ public class GameThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                endTime = System.currentTimeMillis();
+                endTime = nextTime;
             }
-
-//            timeMillis = (System.nanoTime() - startTime) / 1000000;
-//            waitTime = targetTime - timeMillis;
-
-//            try {
-//                sleep(waitTime);
-//            } catch (Exception ignored) {}
-
-//            totalTime += System.nanoTime() - startTime;
-//            frameCount++;
-//            if (frameCount == targetFPS){
-//                //System.out.println(1000 / ((totalTime / frameCount) / 1000000));
-//                frameCount = 0;
-//                totalTime = 0;
-//            }
         }
     }
 

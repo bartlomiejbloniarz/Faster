@@ -1,33 +1,21 @@
 package com.bloniarz.faster;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.ObservableField;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bloniarz.faster.database.Gift;
 import com.bloniarz.faster.database.Score;
 import com.bloniarz.faster.fragments.PauseDialogFragment;
 import com.bloniarz.faster.game.GameView;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.Observable;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -52,7 +40,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void gameOver(int score){
-        gameViewModel.insert(new Score(new Date(), score));
+        gameViewModel.insertScore(new Score(new Date(), score));
+        gameViewModel.insertGift(new Gift(R.drawable.sample_card, "XD"));
+        gameViewModel.insertGift(new Gift(R.drawable.sample_card_2, "XD"));
+        gameViewModel.insertGift(new Gift(R.drawable.sample_card_3, "choinka?"));
         Intent intent = new Intent(this, GameOverActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         intent.putExtra("score", score);
