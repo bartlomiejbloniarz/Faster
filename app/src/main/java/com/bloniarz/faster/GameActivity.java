@@ -41,9 +41,14 @@ public class GameActivity extends AppCompatActivity {
 
     public void gameOver(int score){
         gameViewModel.insertScore(new Score(new Date(), score));
-        gameViewModel.insertGift(new Gift(R.drawable.sample_card, "XD"));
-        gameViewModel.insertGift(new Gift(R.drawable.sample_card_2, "XD"));
-        gameViewModel.insertGift(new Gift(R.drawable.sample_card_3, "choinka?"));
+        if (score>=500)
+            gameViewModel.insertGift(new Gift(R.drawable.card_500, "500 points", R.drawable.card_500_thumbnail));
+        if (score>=1000)
+            gameViewModel.insertGift(new Gift(R.drawable.card_1000, "1000 points", R.drawable.card_1000_thumbnail));
+        if (score>=2000)
+            gameViewModel.insertGift(new Gift(R.drawable.card_2000, "2000 points", R.drawable.card_2000_thumbnail));
+        if (score>=5000)
+            gameViewModel.insertGift(new Gift(R.drawable.card_5000, "5000 points", R.drawable.card_5000_thumbnail));
         Intent intent = new Intent(this, GameOverActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         intent.putExtra("score", score);

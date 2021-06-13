@@ -1,5 +1,7 @@
 package com.bloniarz.faster.game.objects;
 
+import com.bloniarz.faster.game.levels.Level;
+
 public class JumpingPoint extends Point {
     private float timeElapsed = 0;
     private boolean jumping = false;
@@ -33,6 +35,8 @@ public class JumpingPoint extends Point {
     }
 
     float f(float x){
-        return -(speed/30f*x-17)*((float)Math.sqrt(speed)/30f*x-17)+289;
+        float a = (float)Math.sqrt(speed), b = (float)Math.sqrt(Level.unit), c = 5;
+        x = ((speed*b)/100f*x-c*b);
+        return -(x*x)+c*c*b*b;
     }
 }

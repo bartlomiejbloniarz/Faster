@@ -18,9 +18,7 @@ import java.util.Random;
 
 public class Level2 implements Level {
 
-    private final float width = 200, height = 200, speed;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final float width = 20*unit, height = width, speed;
     private final List<Point> stillPoints = new LinkedList<>(), movingPoints = new LinkedList<>();
     private final int maxCount;
     private final Random random;
@@ -36,7 +34,7 @@ public class Level2 implements Level {
         this.tileColor = neutralColor;
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(textColor);
-        textPaint.setTextSize(200);
+        textPaint.setTextSize(20*unit);
         textPaint.setTextAlign(Paint.Align.CENTER);
         for(int i=0; i<8; i++)
             addRandomPoint();
@@ -52,7 +50,7 @@ public class Level2 implements Level {
             stillPoints.add(new Point(x1, y1, x1+width, y1+height, tileColor, 0, 0));
         }
         else{
-            movingPoints.add(new Point(x1, y1, x1+width, y1+height, tileColor, (random.nextInt(500)-250)*speed, (random.nextInt(500)-250)*speed));
+            movingPoints.add(new Point(x1, y1, x1+width, y1+height, tileColor, (random.nextInt(50*(int)unit)-25*unit)*speed, (random.nextInt(50*(int)unit)-25*unit)*speed));
         }
     }
 

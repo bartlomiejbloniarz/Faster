@@ -18,13 +18,10 @@ import java.util.Random;
 
 public class Level6 implements SensorEventListener, Level {
     private float x, y, xVelocity = 0, yVelocity = 0;
-    private final float width = 100, height = 100;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final float width = 10*unit, height = width;
     private final JumpingBall mainRect;
     private SensorManager sensorManager;
-    private float holeX = 200, holeY = 200, holeRadius = 100;
-    private long time;
+    private float holeX = 20*unit, holeY = 20*unit, holeRadius = 10*unit;
     private final float speed;
     private final ProgressBar progressBar;
     private final float maxTime = 7*1000;
@@ -34,12 +31,12 @@ public class Level6 implements SensorEventListener, Level {
 
     public Level6(Context context, float speed, int neutralColor, int playerColor){
         x = (screenWidth - width)/2;
-        y = screenHeight-height-10;
+        y = screenHeight-height-unit;
         holeX = (random.nextFloat()*0.8f+0.1f)*screenWidth;
         this.speed = speed;
         neutralPaint = new Paint();
         neutralPaint.setColor(neutralColor);
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
         mainRect = new JumpingBall(x, y, x+width, y+height, playerColor, xVelocity, yVelocity);
         sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
@@ -72,8 +69,8 @@ public class Level6 implements SensorEventListener, Level {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        mainRect.setXAcceleration(-sensorEvent.values[0]*2000*speed);
-        mainRect.setYAcceleration(sensorEvent.values[1]*2000*speed);
+        mainRect.setXAcceleration(-sensorEvent.values[0]*200*unit*speed);
+        mainRect.setYAcceleration(sensorEvent.values[1]*200*unit*speed);
     }
 
     @Override

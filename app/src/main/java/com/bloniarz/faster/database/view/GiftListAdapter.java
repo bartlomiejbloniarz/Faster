@@ -42,7 +42,7 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
         TextView courseTV = listItemView.findViewById(R.id.idTVCourse);
         ImageView courseIV = listItemView.findViewById(R.id.idIVcourse);
         courseTV.setText(gift.name);
-        courseIV.setImageResource(gift.id);
+        courseIV.setImageResource(gift.thumbnailId);
         return listItemView;
     }
 }

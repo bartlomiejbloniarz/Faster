@@ -140,9 +140,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void drawCountDown(Canvas canvas){
         canvas.drawColor(backgroundColor);
-        textPaint.setTextSize(300);
+        textPaint.setTextSize(30*Level.unit);
         canvas.drawText(String.format(Locale.US, "%d", countdown), screenWidth/2, screenHeight/2, textPaint);
-        textPaint.setTextSize(100);
+        textPaint.setTextSize(8*Level.unit);
         canvas.drawText(currentLevel.getLevelName(), screenWidth/2, screenHeight/5, textPaint);
         float x = screenWidth/2, y = 2*screenHeight/3;
         for (String line: currentLevel.getLevelDescription().split("\n")) {
@@ -180,7 +180,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void changeLevel(){
         thread.setRunning(false);
         animating = true;
-        System.out.println("change");
         currentLevel = levelFactory.getNextLevel();
         createCountdownAnimator();
         gameActivity.runOnUiThread(valueAnimator::start);

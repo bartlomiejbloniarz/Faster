@@ -21,9 +21,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Level4 implements SensorEventListener, Level{
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private final float width = 100, height = 100, speed, smallWidth = 50, smallHeight = 50;
+
+    private final float width = 10*unit, height = width, speed, smallWidth = width/2, smallHeight = smallWidth;
     private SensorManager sensorManager;
     private final Point point;
     private final List<Point> points = new ArrayList<>();
@@ -37,7 +36,7 @@ public class Level4 implements SensorEventListener, Level{
     public Level4(Context context, float speed, int badColor, int playerColor){
         this.speed = speed;
         this.badColor = badColor;
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
         point = new SensorPoint(screenWidth/2-width/2, screenHeight-height, screenWidth/2+width/2, screenHeight,  playerColor, 0, 0);
         addPoints();
         sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
@@ -81,8 +80,8 @@ public class Level4 implements SensorEventListener, Level{
 
     void addPoints(){
         for (int i=0; i<3; i++){
-            float x = screenWidth*random.nextFloat(), y = 300*random.nextFloat();
-            points.add(new Point(x, y, x+smallWidth, y+smallHeight, badColor, 0, (0.5f+random.nextFloat()/2)*800*speed));
+            float x = screenWidth*random.nextFloat(), y = 30*unit*random.nextFloat();
+            points.add(new Point(x, y, x+smallWidth, y+smallHeight, badColor, 0, (0.5f+random.nextFloat()/2)*80*unit*speed));
         }
     }
 
@@ -93,8 +92,7 @@ public class Level4 implements SensorEventListener, Level{
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        //System.out.println(sensorEvent.values[0]);
-        point.setXVelocity(-sensorEvent.values[0]*300*speed);
+        point.setXVelocity(-sensorEvent.values[0]*30*unit*speed);
     }
 
     @Override

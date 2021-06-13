@@ -17,9 +17,7 @@ import java.util.Random;
 
 public class Level9 implements Level {
 
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private final float targetZoneHeight = screenWidth/3, targetZoneWidth = targetZoneHeight;
+    private final float targetZoneHeight = 35*unit, targetZoneWidth = targetZoneHeight;
     private final Point targetZone;
     private final List<Point> balls;
     private final ProgressBar progressBar;
@@ -27,7 +25,7 @@ public class Level9 implements Level {
     private float timeElapsed = 0;
     private final int ballsCount = 5;
     private final Random random;
-    private final float ballSize = 150;
+    private final float ballSize = 15*unit;
     private boolean pointerDown = false;
     private Point currentPoint;
     private int currentPointerId;
@@ -37,7 +35,7 @@ public class Level9 implements Level {
         maxTime = 15*1000/speed;
         random = new Random();
         targetZone = new Point(targetZoneLeft, targetZoneTop, targetZoneLeft + targetZoneWidth, targetZoneTop + targetZoneHeight, goodColor, 0, 0);
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
         balls = new ArrayList<>();
         for (int i=0; i<ballsCount; i++)
             addBall(neutralColor);

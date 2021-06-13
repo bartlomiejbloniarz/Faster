@@ -15,10 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Level1 implements Level {
-    private float xVelocity = 0, yVelocity = 350, dXVelocity = 100, movingPointXVelocity=300;
-    private final float width = 100, height = 100;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final float width = 10*unit, height = width;
+    private float xVelocity = 0, yVelocity = 35*unit, dXVelocity = 10*unit, movingPointXVelocity=30*unit;
+    private final float smallSize = 5*unit;
     private final Paint squareColor = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final HashSet<Integer> leftSet = new HashSet<>(), rightSet = new HashSet<>();
     private final List<Point> stillPoints = new LinkedList<>(), movingPoints = new LinkedList<>();
@@ -26,7 +25,7 @@ public class Level1 implements Level {
 
     public Level1(float speed, int goodColor, int badColor, int playerColor){
         float x = (screenWidth - width)/2;
-        float y = 10;
+        float y = unit;
         xVelocity *= speed;
         yVelocity *= speed;
         dXVelocity *= speed;
@@ -34,9 +33,9 @@ public class Level1 implements Level {
         mainRect = new Point(x, y, x+width, y+height, playerColor, xVelocity, yVelocity); //new RectF(x, y, x+width, y+height);
         squareColor.setColor(Color.BLACK);
         for (float part = 0.25f; part<= 0.75f; part+=0.25f)
-            stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, goodColor, 0, 0));
+            stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+smallSize, screenHeight*part+smallSize, goodColor, 0, 0));
         for (float part = 0.375f; part<= 0.625f; part+=0.25f)
-            movingPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+50, screenHeight*part+50, badColor, part<0.5f ? movingPointXVelocity : -movingPointXVelocity, 0));
+            movingPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+smallSize, screenHeight*part+smallSize, badColor, part<0.5f ? movingPointXVelocity : -movingPointXVelocity, 0));
 
     }
     @Override

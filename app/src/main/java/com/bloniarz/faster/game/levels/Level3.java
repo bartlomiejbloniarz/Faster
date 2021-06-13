@@ -20,23 +20,16 @@ import java.util.Locale;
 
 public class Level3 implements SensorEventListener, Level {
 
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private final float width = 200, height = 200, speed;
+    private final float width = 20*unit, height = width, speed;
     private SensorManager sensorManager;
     private Point point, leftBorder, rightBorder;
     private float timeElapsed = 0;
     private final float maxTime = 5*1000;
-    private final Paint textPaint;
     private final ProgressBar progressBar;
 
     public Level3(Context context, float speed, int badColor, int playerColor){
         this.speed = speed;
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(200);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
         point = new SensorPoint(screenWidth/2-width/2, screenHeight/2-height/2, screenWidth/2+width/2, screenHeight/2+height/2,  playerColor, 0, 0);
         rightBorder = new Point(screenWidth/2+width, screenHeight/2-height, screenWidth/2+2*width, screenHeight/2+height,  badColor, 0, 0);
         leftBorder = new Point(screenWidth/2-2*width, screenHeight/2-height, screenWidth/2-width, screenHeight/2+height,  badColor, 0, 0);
@@ -74,8 +67,7 @@ public class Level3 implements SensorEventListener, Level {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        //System.out.println(sensorEvent.values[0]);
-        point.setXVelocity(-sensorEvent.values[0]*300*speed);
+        point.setXVelocity(-sensorEvent.values[0]*30*unit*speed);
     }
 
     @Override

@@ -13,31 +13,27 @@ public class Level8 implements Level {
 
     private final ProgressBar progressBar;
     private float maxTime = 2*1000;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private float timeElapsed = 0;
-    private final Paint textPaint;
-    private final Level fakeLevel;
     private boolean lost = false;
+    private final Paint badPaint;
+    private final float radius = 20*unit;
 
-    public Level8(Level fakeLevel){
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(50);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
-        this.fakeLevel = fakeLevel;
+    public Level8(float speed, int badColor){
+        maxTime*=speed;
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
+        badPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        badPaint.setColor(badColor);
     }
     @Override
     public void draw(Canvas canvas) {
-        fakeLevel.draw(canvas);
+        canvas.drawCircle(screenWidth/2, screenHeight/2, radius, badPaint);
+        progressBar.draw(canvas);
     }
 
     @Override
     public State update(float time) {
         timeElapsed += time;
         progressBar.update(timeElapsed);
-        fakeLevel.update(time);
         if (lost)
             return State.LOST;
         if(timeElapsed > maxTime)
@@ -65,6 +61,6 @@ public class Level8 implements Level {
 
     @Override
     public String getLevelDescription() {
-        return "Do not touch the screen!";
+        return "Do not touch\nthe red button!";
     }
 }

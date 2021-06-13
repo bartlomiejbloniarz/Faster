@@ -41,7 +41,7 @@ public class LevelFactory {
         itemsList.add(new Item(() -> new Level5(speedFactory.getNextSpeed(), badColor, playerColor), startingProbability));
         itemsList.add(new Item(() -> new Level6(context, speedFactory.getNextSpeed(), neutralColor, playerColor), startingProbability));
         itemsList.add(new Item(() -> new Level7(speedFactory.getNextSpeed(), goodColor, neutralColor, textColor), startingProbability));
-        itemsList.add(new Item(this::createLevel8, startingProbability/8));
+        itemsList.add(new Item(() -> new Level8(speedFactory.getNextSpeed(), badColor), startingProbability));
         itemsList.add(new Item(() -> new Level9(speedFactory.getNextSpeed(), goodColor, neutralColor), startingProbability));
     }
 
@@ -78,13 +78,6 @@ public class LevelFactory {
         }
     }
 
-    private Level createLevel8(){
-        int i = random.nextInt(itemsList.size());
-        while(i == 7)
-            i = random.nextInt(itemsList.size());
-        return new Level8(itemsList.get(i).getLevel.get());
-    }
-    
     private void getColors(Context context){
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();

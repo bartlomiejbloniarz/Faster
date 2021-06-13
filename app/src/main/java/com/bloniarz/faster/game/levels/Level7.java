@@ -20,9 +20,8 @@ public class Level7 implements Level {
 
     private final List<Point> tiles = new ArrayList<>();
     private final int tilesCount = 5;
-    private final float width = 200, height = 200;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private final float width = 20*unit, height = width;
+
     private final Random random = new Random();
     private final ProgressBar progressBar;
     private float showTime = 3*1000;
@@ -34,10 +33,10 @@ public class Level7 implements Level {
     public Level7(float speed, int goodColor, int neutralColor, int textColor){
         textPaint = new Paint();
         textPaint.setColor(textColor);
-        textPaint.setTextSize(50);
+        textPaint.setTextSize(5*unit);
         textPaint.setTextAlign(Paint.Align.CENTER);
         showTime /= speed;
-        progressBar = new ProgressBar(screenWidth, 50, goodColor, showTime);
+        progressBar = new ProgressBar(screenWidth, 5*unit, goodColor, showTime);
         for (int i=0; i<tilesCount; i++){
             Point tile;
             do {

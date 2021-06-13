@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Score.class, Gift.class}, version = 9)
+@Database(entities = {Score.class, Gift.class}, version = 12)
 @TypeConverters({Converters.class})
 public abstract class FasterDatabase extends RoomDatabase {
     public abstract FasterDao scoreDao();

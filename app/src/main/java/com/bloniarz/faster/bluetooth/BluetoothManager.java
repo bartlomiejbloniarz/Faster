@@ -52,7 +52,7 @@ public class BluetoothManager {
             try {
                 tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
             } catch (IOException e) {
-                Log.e(TAG, "Socket's listen() method failed", e);
+                toast("Connection error");
             }
             mmServerSocket = tmp;
         }
@@ -63,7 +63,7 @@ public class BluetoothManager {
                 try {
                     socket = mmServerSocket.accept();
                 } catch (IOException e) {
-                    Log.e(TAG, "Socket's accept() method failed", e);
+                    toast("Connection error");
                     break;
                 }
 
@@ -72,7 +72,7 @@ public class BluetoothManager {
                     try {
                         mmServerSocket.close();
                     } catch (IOException e) {
-                        Log.e(TAG, "Could not close the connect socket", e);
+                        toast("Connection error");
                     }
                     break;
                 }
@@ -101,12 +101,12 @@ public class BluetoothManager {
             try {
                 tmpIn = socket.getInputStream();
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating input stream", e);
+                toast("Connection error");
             }
             try {
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating input stream", e);
+                toast("Connection error");
             }
 
             inStream = tmpIn;
@@ -115,7 +115,7 @@ public class BluetoothManager {
             try {
                 temp = new ObjectInputStream(inStream);
             } catch (IOException e){
-                Log.e(TAG, "Error occurred when creating output stream", e);
+                toast("Connection error");
             }
 
             objectInputStream = temp;
@@ -131,7 +131,7 @@ public class BluetoothManager {
                 else
                     outStream.write(GIFT_NOT_ACCEPTED);
             } catch (IOException | ClassNotFoundException e) {
-                Log.d(TAG, "Input stream was disconnected", e);
+                toast("Connection error");
             }
         }
     }
@@ -150,7 +150,7 @@ public class BluetoothManager {
             try {
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
-                Log.e(TAG, "Socket's create() method failed", e);
+                toast("Connection error");
             }
             socket = tmp;
         }
@@ -163,8 +163,7 @@ public class BluetoothManager {
             } catch (IOException connectException) {
                 try {
                     socket.close();
-                } catch (IOException closeException) {
-                    Log.e(TAG, "Could not close the client socket", closeException);
+                } catch (IOException ignored) {
                 }
                 toast("Connection error");
                 return;
@@ -192,12 +191,12 @@ public class BluetoothManager {
             try {
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating output stream", e);
+                toast("Connection error");
             }
             try {
                 tmpIn = socket.getInputStream();
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating output stream", e);
+                toast("Connection error");
             }
 
             inStream = tmpIn;
@@ -207,7 +206,7 @@ public class BluetoothManager {
             try {
                 temp = new ObjectOutputStream(outStream);
             } catch (IOException e){
-                Log.e(TAG, "Error occurred when creating output stream", e);
+                toast("Connection error");
             }
 
             objectOutputStream = temp;
@@ -225,7 +224,7 @@ public class BluetoothManager {
                     toast("Your gift was rejected");
                 }
             } catch (IOException e) {
-                Log.d(TAG, "Input stream was disconnected", e);
+                toast("Connection error");
             }
         }
     }

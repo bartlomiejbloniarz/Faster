@@ -21,27 +21,25 @@ public class Level5 implements Level{
     private final Random random;
     private final float speed;
     private final JumpingPoint jumpingPoint;
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final float screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private final float width = 100, height = 100, smallWidth = 50, smallHeight = 50;
+    private final float width = 10*unit, height = width;
     private float timeElapsed = 0;
     private final float maxTime = 7*1000;
     private final ProgressBar progressBar;
     private final List<Point> movingPoints = new LinkedList<>();
-    private float addTime = 800, addTimeElapsed = 0;
-    private int badColor;
+    private float addTime = 1500, addTimeElapsed = 0;
+    private final int badColor;
 
     public Level5(float speed, int badColor, int playerColor){
         random = new Random();
         this.speed = speed;
-        progressBar = new ProgressBar(screenWidth, 50, Color.GRAY, maxTime);
-        jumpingPoint = new JumpingPoint(50, screenHeight/2, 50+width, screenHeight/2+height, playerColor, speed);
+        progressBar = new ProgressBar(screenWidth, 5*unit, Color.GRAY, maxTime);
+        jumpingPoint = new JumpingPoint(5*unit, screenHeight/2, 5*unit+width, screenHeight/2+height, playerColor, speed);
         this.badColor = badColor;
         addPoint();
     }
 
     void addPoint(){
-        movingPoints.add(new NoBoundariesPoint(screenWidth, screenHeight/2, screenWidth+width, screenHeight/2+height, badColor, -600*speed, 0));
+        movingPoints.add(new NoBoundariesPoint(screenWidth, screenHeight/2, screenWidth+width, screenHeight/2+height, badColor, -60*unit*speed, 0));
     }
 
     @Override
