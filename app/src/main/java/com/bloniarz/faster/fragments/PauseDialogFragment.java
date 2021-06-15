@@ -21,12 +21,13 @@ public class PauseDialogFragment extends DialogFragment {
     public PauseDialogFragment(GameView gameView, GameActivity gameActivity){
         this.gameView = gameView;
         this.gameActivity = gameActivity;
+        this.setCancelable(false);
     }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return new AlertDialog.Builder(requireContext(), R.style.pause_alert_dialog)
-                .setMessage("Game paused")
+                .setTitle("Game paused")
                 .setNegativeButton("Resume", (dialog, which) -> {gameView.resume();} )
                 .setNeutralButton("Restart", (dialog, which) -> {
                     gameView.reset();
@@ -34,12 +35,6 @@ public class PauseDialogFragment extends DialogFragment {
                 })
                 .setPositiveButton("Exit", (dialog, which) -> {gameActivity.gameOver(gameView.getScore());} )
                 .create();
-    }
-
-    @Override
-    public void onCancel(@NonNull DialogInterface dialog) {
-        gameView.resume();
-        super.onCancel(dialog);
     }
 
     public static String TAG = "PauseDialog";

@@ -30,4 +30,8 @@ public class GameOverActivity extends AppCompatActivity {
     public void backClick(View view) {
         onBackPressed();
     }
+
+    public void playAgain(View view){
+        startActivity(new Intent(this, GameActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
 }

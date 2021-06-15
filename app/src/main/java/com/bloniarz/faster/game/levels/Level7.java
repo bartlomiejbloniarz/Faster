@@ -30,10 +30,10 @@ public class Level7 implements Level {
     private final Paint textPaint;
     private boolean lost = false;
 
-    public Level7(float speed, int goodColor, int neutralColor, int textColor){
+    public Level7(float speed, int goodColor, int neutralColor, int textOnNeutralColor){
         textPaint = new Paint();
-        textPaint.setColor(textColor);
-        textPaint.setTextSize(5*unit);
+        textPaint.setColor(textOnNeutralColor);
+        textPaint.setTextSize(6*unit);
         textPaint.setTextAlign(Paint.Align.CENTER);
         showTime /= speed;
         progressBar = new ProgressBar(screenWidth, 5*unit, goodColor, showTime);

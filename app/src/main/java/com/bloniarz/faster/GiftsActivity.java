@@ -71,7 +71,7 @@ public class GiftsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ENABLE_BT){
             if (resultCode == RESULT_CANCELED)
-                Toast.makeText(this, "Cannot send gits", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Cannot receive gits", Toast.LENGTH_SHORT).show();
             else if (resultCode == RESULT_OK)
                 requestDiscoverable();
         }
@@ -89,7 +89,6 @@ public class GiftsActivity extends AppCompatActivity {
     }
 
     private void receiveGift(){
-        System.out.println("receiving");
         (new BluetoothManager(bluetoothAdapter, getApplicationContext())).getAcceptThread(giftViewModel::insertGift).start();
     }
 

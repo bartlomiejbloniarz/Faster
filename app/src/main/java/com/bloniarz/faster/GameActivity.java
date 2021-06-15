@@ -36,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void pauseButtonClick(View view){
-        onBackPressed();
+        pause();
     }
 
     public void gameOver(int score){
@@ -57,7 +57,15 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        pause();
+    }
+
+    public void pause(){
         gameView.pause();
+        showPauseDialog();
+    }
+
+    public void showPauseDialog(){
         PauseDialogFragment dialogFragment = new PauseDialogFragment(gameView, this);
         dialogFragment.show(getSupportFragmentManager(), dialogFragment.getTag());
     }

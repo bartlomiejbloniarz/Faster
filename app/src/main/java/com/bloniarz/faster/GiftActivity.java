@@ -45,8 +45,6 @@ public class GiftActivity extends AppCompatActivity {
     private Gift gift;
     private GiftViewModel giftViewModel;
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<BluetoothDevice> devices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +76,6 @@ public class GiftActivity extends AppCompatActivity {
         AssociationRequest pairingRequest = new AssociationRequest.Builder().addDeviceFilter(deviceFilter).build();
         CompanionDeviceManager deviceManager = (CompanionDeviceManager) getSystemService(Context.COMPANION_DEVICE_SERVICE);
         deviceManager.associate(pairingRequest, new CompanionDeviceManager.Callback() {
-            // Called when a device is found. Launch the IntentSender so the user can
-            // select the device they want to pair with.
             @Override
             public void onDeviceFound(IntentSender chooserLauncher) {
                 try {
@@ -93,7 +89,7 @@ public class GiftActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(CharSequence error) {
-                // Handle the failure.
+                Toast.makeText(GiftActivity.this.getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
             }
         }, null);
     }

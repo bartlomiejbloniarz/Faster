@@ -23,21 +23,21 @@ public class Point extends RectF {
     }
 
     public void update(float time){
-        if (left < 0 || right>screenWidth){
+        time /= 1000;
+        if (left + xVelocity * time < 0 || right + xVelocity * time >screenWidth)
             xVelocity *= -1;
-            if (left<0)
-                this.offset(-left, 0);
-            else
-                this.offset(screenWidth-right, 0);
-        }
-        if (top < 0 || bottom>screenHeight){
+        if (top + yVelocity * time < 0 || bottom + yVelocity * time >screenHeight){
             yVelocity *= -1;
-            if (top<0)
-                this.offset(-top, 0);
-            else
-                this.offset(screenHeight-bottom, 0);
         }
-        this.offset(xVelocity*time/1000, yVelocity*time/1000);
+        if (left<0)
+            this.offset(-left, 0);
+        else if (right > screenWidth)
+            this.offset(screenWidth-right, 0);
+        if (top<0)
+            this.offset(0, -top);
+        else if (bottom >screenHeight)
+            this.offset(0, screenHeight-bottom);
+        this.offset(xVelocity*time, yVelocity*time);
     }
 
     public Paint getPaint() {

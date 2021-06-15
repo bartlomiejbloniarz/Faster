@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.bloniarz.faster.game.objects.NoBoundariesPoint;
 import com.bloniarz.faster.game.objects.Point;
 
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class Level1 implements Level {
         yVelocity *= speed;
         dXVelocity *= speed;
         movingPointXVelocity *= speed;
-        mainRect = new Point(x, y, x+width, y+height, playerColor, xVelocity, yVelocity); //new RectF(x, y, x+width, y+height);
+        mainRect = new NoBoundariesPoint(x, y, x+width, y+height, playerColor, xVelocity, yVelocity); //new RectF(x, y, x+width, y+height);
         squareColor.setColor(Color.BLACK);
         for (float part = 0.25f; part<= 0.75f; part+=0.25f)
             stillPoints.add(new Point(screenWidth*part, screenHeight*part, screenWidth*part+smallSize, screenHeight*part+smallSize, goodColor, 0, 0));
@@ -105,12 +106,16 @@ public class Level1 implements Level {
     @Override
     public synchronized State update(float time) {
         mainRect.update(time);
-        if (mainRect.bottom >= screenHeight) {
+        if (mainRect.bottom >= screenHeight - unit) {
             if (stillPoints.size() == 0)
                 return State.PASSED;
             else
                 return State.LOST;
         }
+        if (mainRect.left<0)
+            mainRect.offset(-mainRect.left, 0);
+        if (mainRect.right>screenWidth)
+            mainRect.offset(screenWidth - mainRect.right, 0);
         for (Point point: movingPoints) {
             point.update(time);
             if (RectF.intersects(mainRect, point))

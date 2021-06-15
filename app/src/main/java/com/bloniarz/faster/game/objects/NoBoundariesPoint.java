@@ -4,9 +4,6 @@ import android.content.res.Resources;
 
 public class NoBoundariesPoint extends Point{
 
-    private final float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels,
-            screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-
     public NoBoundariesPoint(float left, float top, float right, float bottom, int color, float xVelocity, float yVelocity) {
         super(left, top, right, bottom, color, xVelocity, yVelocity);
     }

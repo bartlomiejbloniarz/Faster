@@ -51,6 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private LevelFactory levelFactory;
     @ColorInt private int backgroundColor;
     private Paint textPaint;
+    private boolean invisible = false;
 
 
     public GameView(Context context, AttributeSet attributeSet){
@@ -92,7 +93,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         animating = true;
         createCountdownAnimator();
         gameActivity.runOnUiThread(valueAnimator::start);
-        levelFactory = new LevelFactory(gameActivity, new SpeedFactory(1.5f, 0.60f));
+        levelFactory = new LevelFactory(gameActivity, new SpeedFactory(0.3f, 0.9f, 1f));
         currentLevel = levelFactory.getNextLevel();
         setFocusable(true);
         fixSystemUiVisibility();
@@ -198,6 +199,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+        if (invisible){
+            invisible = false;
+            gameActivity.showPauseDialog();
+        }
         if (animating){
             Canvas canvas = surfaceHolder.lockCanvas();
             drawCountDown(canvas);
@@ -213,20 +218,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-        //System.out.println("gooo");
-        //endThread();
-    }
+    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {}
 
     @Override
-    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int format, int width, int height) {
-
-    }
+    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int format, int width, int height) {}
 
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-        if (visibility == GONE)
-            endThread();
+        if (visibility == INVISIBLE && !paused) {
+            pause();
+            invisible = true;
+        }
         super.onVisibilityChanged(changedView, visibility);
     }
 

@@ -20,9 +20,16 @@
         <item name="android:textColor">?colorOnPrimary</item>
     </style>
 
-    <style name="pause_alert_dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:typeface">monospace</item>
+    <style name="DialogTitle" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">40sp</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="pause_alert_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">#5F000000</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:windowTitleStyle">@style/DialogTitle</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">40sp</item>
     </style>
 </resources>

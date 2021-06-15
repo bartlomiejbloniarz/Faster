@@ -5,8 +5,6 @@ import android.graphics.Paint;
 public class SensorPoint extends Point {
     public SensorPoint(float left, float top, float right, float bottom, int color, float xVelocity, float yVelocity) {
         super(left, top, right, bottom, color, xVelocity, yVelocity);
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(color);
     }
 
     @Override
@@ -20,9 +18,9 @@ public class SensorPoint extends Point {
         }
         if (top < 0 || bottom>getScreenHeight()){
             if (top<0)
-                this.offset(-top, 0);
+                this.offset(0, -top);
             else
-                this.offset(getScreenHeight()-bottom, 0);
+                this.offset(0, getScreenHeight()-bottom);
         }
     }
 }

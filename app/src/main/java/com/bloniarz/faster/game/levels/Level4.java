@@ -11,6 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.MotionEvent;
 
+import com.bloniarz.faster.game.objects.NoBoundariesPoint;
 import com.bloniarz.faster.game.objects.Point;
 import com.bloniarz.faster.game.objects.ProgressBar;
 import com.bloniarz.faster.game.objects.SensorPoint;
@@ -80,8 +81,8 @@ public class Level4 implements SensorEventListener, Level{
 
     void addPoints(){
         for (int i=0; i<3; i++){
-            float x = screenWidth*random.nextFloat(), y = 30*unit*random.nextFloat();
-            points.add(new Point(x, y, x+smallWidth, y+smallHeight, badColor, 0, (0.5f+random.nextFloat()/2)*80*unit*speed));
+            float x = (screenWidth-smallWidth)*random.nextFloat(), y = 30*unit*random.nextFloat();
+            points.add(new NoBoundariesPoint(x, y, x+smallWidth, y+smallHeight, badColor, 0, (0.5f+random.nextFloat()/2)*80*unit*speed));
         }
     }
 
@@ -92,7 +93,7 @@ public class Level4 implements SensorEventListener, Level{
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        point.setXVelocity(-sensorEvent.values[0]*30*unit*speed);
+        point.setXVelocity(-sensorEvent.values[0]*20*unit*speed);
     }
 
     @Override

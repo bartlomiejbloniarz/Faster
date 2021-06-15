@@ -1,13 +1,11 @@
 package com.bloniarz.faster.game.levels;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.bloniarz.faster.R;
+import com.bloniarz.faster.game.objects.Ball;
 import com.bloniarz.faster.game.objects.Point;
 import com.bloniarz.faster.game.objects.ProgressBar;
 
@@ -19,15 +17,15 @@ public class Level9 implements Level {
 
     private final float targetZoneHeight = 35*unit, targetZoneWidth = targetZoneHeight;
     private final Point targetZone;
-    private final List<Point> balls;
+    private final List<Ball> balls;
     private final ProgressBar progressBar;
     private final float maxTime;
     private float timeElapsed = 0;
     private final int ballsCount = 5;
     private final Random random;
-    private final float ballSize = 15*unit;
+    private final float ballRadius = 8*unit;
     private boolean pointerDown = false;
-    private Point currentPoint;
+    private Ball currentBall;
     private int currentPointerId;
     private final float targetZoneLeft = screenWidth/2 - targetZoneWidth/2, targetZoneTop = screenHeight/20;
 
@@ -46,8 +44,8 @@ public class Level9 implements Level {
         if (canvas != null){
             targetZone.draw(canvas);
             progressBar.draw(canvas);
-            for (Point p: balls){
-                canvas.drawCircle((p.left+p.right)/2, (p.bottom+p.top)/2, (p.right-p.left)/2, p.getPaint());
+            for (Ball p: balls){
+                p.draw(canvas);
             }
         }
     }
@@ -70,9 +68,9 @@ public class Level9 implements Level {
             case MotionEvent.ACTION_DOWN: {
                 currentPointerId = pointerId;
                 int pointerIndex = event.findPointerIndex(currentPointerId);
-                for (Point p: balls){
+                for (Ball p: balls){
                     if (p.contains(event.getX(pointerIndex), event.getY(pointerIndex))){
-                        currentPoint = p;
+                        currentBall = p;
                         pointerDown = true;
                         break;
                     }
@@ -84,8 +82,8 @@ public class Level9 implements Level {
             case MotionEvent.ACTION_POINTER_UP: {
                 if (pointerId == currentPointerId){
                     currentPointerId = -1;
-                    if (pointerDown && targetZone.contains(currentPoint))
-                        balls.remove(currentPoint);
+                    if (pointerDown && targetZone.contains(currentBall))
+                        balls.remove(currentBall);
                     pointerDown = false;
                 }
                 return true;
@@ -94,7 +92,7 @@ public class Level9 implements Level {
                 if (currentPointerId != -1) {
                     int pointerIndex = event.findPointerIndex(currentPointerId);
                     if (pointerIndex != -1 && pointerDown) {
-                        currentPoint.setCenter(event.getX(pointerIndex), event.getY(pointerIndex));
+                        currentBall.setCenter(event.getX(pointerIndex), event.getY(pointerIndex));
                     }
                 }
             }
@@ -113,10 +111,10 @@ public class Level9 implements Level {
     }
 
     private void addBall(int neutralColor){
-        float x = random.nextFloat()*(screenWidth - ballSize - 2*ballSize)+ballSize;
-        float y = random.nextFloat()*(screenHeight - targetZoneTop - targetZoneHeight - 2*ballSize) + targetZoneTop + targetZoneHeight + ballSize;
-        Point temp = new Point(x, y, x+ballSize, y+ballSize, neutralColor, 0, 0);
-        for (Point p: balls){
+        float x = random.nextFloat()*(screenWidth - ballRadius - 2*ballRadius)+ballRadius;
+        float y = random.nextFloat()*(screenHeight - targetZoneTop - targetZoneHeight - 2*ballRadius) + targetZoneTop + targetZoneHeight + ballRadius;
+        Ball temp = new Ball(x, y, ballRadius, neutralColor, 0, 0);
+        for (Ball p: balls){
             if (RectF.intersects(p, temp)) {
                 addBall(neutralColor);
                 return;

@@ -67,7 +67,7 @@ public class Level3 implements SensorEventListener, Level {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        point.setXVelocity(-sensorEvent.values[0]*30*unit*speed);
+        point.setXVelocity(-sensorEvent.values[0]*20*unit*speed);
     }
 
     @Override

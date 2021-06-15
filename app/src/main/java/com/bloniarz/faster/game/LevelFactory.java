@@ -9,6 +9,7 @@ import androidx.annotation.ColorInt;
 
 import com.bloniarz.faster.R;
 import com.bloniarz.faster.game.levels.Level1;
+import com.bloniarz.faster.game.levels.Level10;
 import com.bloniarz.faster.game.levels.Level4;
 import com.bloniarz.faster.game.levels.Level;
 import com.bloniarz.faster.game.levels.Level2;
@@ -29,7 +30,7 @@ public class LevelFactory {
     private final int startingProbability = 512;
     private final Random random = new Random();
     private Item lastItem = null;
-    private int goodColor, badColor, neutralColor, playerColor, textColor;
+    private int goodColor, badColor, neutralColor, playerColor, textColor, textOnNeutralColor;
 
     public LevelFactory(Context context, ISpeedFactory speedFactory){
         itemsList = new ArrayList<>();
@@ -40,9 +41,10 @@ public class LevelFactory {
         itemsList.add(new Item(() -> new Level4(context, speedFactory.getNextSpeed(), badColor, playerColor), startingProbability));
         itemsList.add(new Item(() -> new Level5(speedFactory.getNextSpeed(), badColor, playerColor), startingProbability));
         itemsList.add(new Item(() -> new Level6(context, speedFactory.getNextSpeed(), neutralColor, playerColor), startingProbability));
-        itemsList.add(new Item(() -> new Level7(speedFactory.getNextSpeed(), goodColor, neutralColor, textColor), startingProbability));
+        itemsList.add(new Item(() -> new Level7(speedFactory.getNextSpeed(), goodColor, neutralColor, textOnNeutralColor), startingProbability));
         itemsList.add(new Item(() -> new Level8(speedFactory.getNextSpeed(), badColor), startingProbability));
         itemsList.add(new Item(() -> new Level9(speedFactory.getNextSpeed(), goodColor, neutralColor), startingProbability));
+        itemsList.add(new Item(() -> new Level10(speedFactory.getNextSpeed(), neutralColor), startingProbability));
     }
 
     public Level getNextLevel(){
@@ -86,6 +88,9 @@ public class LevelFactory {
 
         theme.resolveAttribute(R.attr.colorOnBackground, typedValue, true);
         textColor = typedValue.data;
+
+        theme.resolveAttribute(R.attr.colorOnPrimary, typedValue, true);
+        textOnNeutralColor = typedValue.data;
 
         goodColor = context.getColor(R.color.game_good_color);
         badColor = context.getColor(R.color.game_bad_color);

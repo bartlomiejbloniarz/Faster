@@ -10,6 +10,8 @@
     <string name="set_theme">Set theme:</string>
     <string name="top_10">Top 10</string>
     <string name="gifts">Gifts</string>
+    <string name="play_again">play again</string>
+    <string name="your_score_is">Your score is:</string>
     <string-array name="themes_array">
         <item>Default</item>
         <item>Dark mode</item>

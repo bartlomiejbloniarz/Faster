@@ -35,7 +35,6 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
         if (listItemView == null) {
-            // Layout Inflater inflates each item to be displayed in GridView.
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.gift_item, parent, false);
         }
         Gift gift = getItem(position);
